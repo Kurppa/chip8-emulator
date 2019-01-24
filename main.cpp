@@ -40,7 +40,7 @@ int main (int argc, char** argv) {
 	}
 	
 	sf::RenderWindow* window = new  sf::RenderWindow(sf::VideoMode(1280,640), "chip8");
-	window->setFramerateLimit(60);
+	window->setFramerateLimit(120);
 
 	if (window == NULL) {
 		std::cerr << "Failed to create a window" << std::endl;
@@ -66,6 +66,11 @@ int main (int argc, char** argv) {
 		
 		while (window->pollEvent(e)) {
 			if (e.type == sf::Event::EventType::Closed) {
+				window->close();
+				return 0;
+			}
+
+			if (e.key.code == sf::Keyboard::Key::Escape) {
 				window->close();
 				return 0;
 			}
@@ -101,7 +106,8 @@ int main (int argc, char** argv) {
 			}
 		
 			window->display();
-		}
+		
+		}	
 
 	}
 
