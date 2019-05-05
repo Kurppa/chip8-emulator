@@ -25,6 +25,7 @@ Chip8::Chip8()
 	memset(key, 0, sizeof key);
 	memset(V, 0, sizeof V);
 	memset(gfx, 0, sizeof gfx);
+	memset(memory, 0, sizeof memory);
 	I = 0;
 	pc = 0x200;
 	sp = 0;
@@ -45,11 +46,12 @@ WORD Chip8::get_opcode() {
 	
 	pc += 2;
 	
+
 	return ret;
 }
 
 bool Chip8::load_program(const char * gameFile) {
-	FILE *in;
+	FILE *in = nullptr;
 
 	in = fopen(gameFile, "rb");
 	if (in == nullptr) {
@@ -303,7 +305,7 @@ void Chip8::opcode8XY5(WORD opcode) {
 }
 
 void Chip8::opcode8XY6(WORD opcode) {
-	V[0xF] = (V[(opcode & 0x0F00) >> 8] & 0x01);
+	V[0xF] = (V[(opcode & 0x0F00) >> 8] & 0x1);
 	V[(opcode & 0x0F00) >> 8] >>= 1; 
 }
 
@@ -351,10 +353,10 @@ void Chip8::opcodeDXYN(WORD opcode) {
 	for (int yline = 0; yline < height; ++yline){
 		pixel = memory[I + yline];
 		for(int xline = 0; xline < 8; ++xline) {
-            		if((pixel & (0x80 >> xline)) != 0) {
-				if(gfx[(x + xline + ((y + yline) * 64))] == 1) {
-					V[0xF] = 1;
-				}
+            	if((pixel & (0x80 >> xline)) != 0) {
+					if(gfx[(x + xline + ((y + yline) * 64))] == 1) {
+						V[0xF] = 1;
+					}
 				gfx[x + xline + ((y + yline) * 64)] ^= 1;
 			}
 		}

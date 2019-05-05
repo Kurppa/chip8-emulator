@@ -91,12 +91,12 @@ int main (int argc, char** argv) {
 			}
 		}
 		
-		
+				
 		if (chip8.draw_flag) {
 			chip8.draw_flag = false;
 			
 			window->clear();
-				
+			
 			for (int y = 0; y < 32; ++y) {
 				for (int x = 0; x < 64; ++x) {	
 					if (chip8.gfx[(y*64)+x] == 1) {
@@ -104,10 +104,14 @@ int main (int argc, char** argv) {
 					}
 				}
 			}
-		
+			
 			window->display();
+
+				
+		}
+
+
 		
-		}	
 
 	}
 
